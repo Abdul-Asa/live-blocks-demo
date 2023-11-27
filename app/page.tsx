@@ -1,11 +1,11 @@
-import MouseTrack from "@/components/mouse-track";
-import { Shell } from "@/components/layout.tsx/shell";
-import ThemeSwitch from "@/components/theme-switch";
+import MouseTrack from "@/components/cursor parts/mouse-track";
+import { Shell } from "@/components/layout/shell";
+import ThemeSwitch from "@/components/layout/theme-switch";
 import { Badge } from "@/components/ui/badge";
 import { badgeVariants } from "@/components/ui/badge";
 import { Room } from "../components/providers/liveblocks-provider";
-import { UserList } from "@/components/user-list";
-import { Boundary } from "@/components/mouse-boundary";
+import { UserList } from "@/components/layout/user-list";
+import Boundary from "@/components/cursor parts/cursor-boundary";
 
 export default function Home() {
   return (
@@ -16,8 +16,8 @@ export default function Home() {
           <UserList />
         </div>
         <MouseTrack />
-        <div className=" flex sm:flex-row flex-col justify-between w-full">
-          <Shell className="sm:w-fit w-full">
+        <div className="flex flex-col justify-between w-full sm:flex-row">
+          <Shell className="w-full sm:w-fit">
             <div className="flex items-center space-x-4">
               <ThemeSwitch />
               <Badge variant={"outline"}>Latency: 500ms</Badge>
@@ -28,13 +28,13 @@ export default function Home() {
               >
                 <p>Operational</p>
                 <div className="relative flex items-center pr-3">
-                  <div className="w-2 h-2 absolute rounded-full bg-green-500"></div>
-                  <div className="w-2 h-2 absolute rounded-full bg-green-500 animate-ping"></div>
+                  <div className="absolute w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="absolute w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
                 </div>
               </div>
             </div>
           </Shell>
-          <Shell className="sm:w-fit w-full">
+          <Shell className="w-full sm:w-fit">
             <p>Designed with ❤️ by Shehu</p>
           </Shell>
         </div>

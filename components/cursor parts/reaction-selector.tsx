@@ -9,10 +9,10 @@ type Props = {
 export default function ReactionSelector({ setReaction, x, y }: Props) {
   return (
     <div
-      className="-translate-x-1/2 -translate-y-1/2 transform absolute rounded-full bg-white p-2"
+      className="absolute p-2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full"
       style={{
-        left: `${x}%`,
-        top: `${y}%`,
+        left: `${x}px`,
+        top: `${y}px`,
         boxShadow:
           "0 0 0 0.5px rgba(0, 0, 0, 0.08), 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
@@ -37,7 +37,7 @@ function ReactionButton({
 }) {
   return (
     <button
-      className="transform select-none p-2 text-xl transition-transform hover:scale-150 focus:scale-150 focus:outline-none"
+      className="p-2 text-xl transition-transform transform select-none hover:scale-150 focus:scale-150 focus:outline-none"
       onPointerDown={() => onSelect(reaction)}
     >
       {reaction}

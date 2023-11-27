@@ -1,7 +1,7 @@
 "use client";
 
 import { useMousePosition } from "@/lib/hooks/use-mouse";
-import { Shell } from "./layout.tsx/shell";
+import { Shell } from "../layout/shell";
 
 // import LiveCursors from "./live";
 

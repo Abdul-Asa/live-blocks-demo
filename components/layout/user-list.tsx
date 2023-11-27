@@ -8,10 +8,10 @@ import {
 } from "@/liveblocks.config";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Minimize2Icon, Maximize2Icon } from "lucide-react";
-import { Shell } from "./layout.tsx/shell";
-import { Badge } from "./ui/badge";
+import { Shell } from "./shell";
+import { Badge } from "../ui/badge";
 import { shallow } from "@liveblocks/client";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import { containsColor, getNewRandomColor } from "@/lib/generate-colors";
 
 export function UserList() {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans, Anonymous_Pro } from "next/font/google";
 import "../styles/globals.css";
-import Background from "../components/layout.tsx/background";
+import Background from "../components/layout/background";
 import Provider from "@/components/providers/theme-provider";
 
 const openSans = Open_Sans({

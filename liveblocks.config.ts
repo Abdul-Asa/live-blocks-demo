@@ -38,6 +38,8 @@ type UserMeta = {
 // room. Use a union for multiple events. Must be JSON-serializable.
 type RoomEvent = {
   value: string;
+  x: number;
+  y: number;
 };
 // Optionally, when using Comments, ThreadMetadata represents metadata on
 // each thread. Can only contain booleans, strings, and numbers.
