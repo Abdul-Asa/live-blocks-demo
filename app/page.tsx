@@ -40,4 +40,5 @@ export default function Home() {
 //add toasts if possible
 //redesign reactionbar
 //stable fonts
-//
+
+//Implement chat

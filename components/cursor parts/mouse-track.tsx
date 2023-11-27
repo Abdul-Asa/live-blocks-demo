@@ -9,7 +9,7 @@ export default function MouseTrack() {
   const { x, y } = useMousePosition();
 
   return (
-    <div className="flex flex-col items-center justify-center pointer-events-none ">
+    <div className="flex flex-col items-center justify-center pointer-events-none select-none">
       <Shell>
         <div className="flex flex-col justify-between w-full gap-4 md:flex-row ">
           <div className="flex items-center justify-center px-3 py-2 space-x-2 border rounded-md border-border">
