@@ -7,11 +7,12 @@ import {
   useBroadcastEvent,
   useEventListener,
 } from "@/liveblocks.config";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Cursor from "./cursor";
 import FlyingReaction from "./flying-reactions";
 import ReactionSelector from "./reaction-selector";
-
+import { useMousePosition } from "@/lib/hooks/use-mouse";
+import { useBoundingClientRectRef } from "@/lib/hooks/use-bounding-client";
 type Reaction = {
   value: string;
   timestamp: number;
@@ -30,11 +31,15 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
     useMyPresence();
   const broadcast = useBroadcastEvent();
 
+  const { x, y } = useMousePosition();
+  //using percentage based x and y values
+  const mainRef = useRef<HTMLDivElement>(null);
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [selectedEmoji, setSelectedEmoji] = useState("❤️"); // Default emoji
   const [isReactionBarVisible, setIsReactionBarVisible] = useState(false);
   const [isPointerDown, setIsPointerDown] = useState(false);
   const [showMessageBubble, setShowMessageBubble] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   //using callback to avoid rerender, passed as prop in a component
   const setReaction = useCallback((reaction: string) => {
@@ -48,15 +53,32 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
       });
 
       if (message.trim() === "" || message.length <= 0) {
+        updateMyPresence({
+          message: "",
+        });
         setShowMessageBubble(false);
       } else {
         updateMyPresence({
           message: message,
         });
+        setShowMessageBubble(true);
+        setCountdown(5);
       }
     },
     [updateMyPresence]
   );
+
+  //countdown timer for message bubble
+  useInterval(() => {
+    if (countdown > 0) {
+      setCountdown(countdown - 1);
+    } else if (showMessageBubble && !isTyping) {
+      setShowMessageBubble(false);
+      updateMyPresence({
+        message: "",
+      });
+    }
+  }, 1000);
 
   //every 1000ms, remove reactions that are older than 4 seconds
   useInterval(() => {
@@ -64,6 +86,7 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
       reactions.filter((reaction) => reaction.timestamp > Date.now() - 4000)
     );
   }, 1000);
+
   //every 100ms, if the pointer is down and the cursor is not null, add a reaction to the list of reactions
   useInterval(() => {
     if (isPointerDown && cursor) {
@@ -95,34 +118,25 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
         });
       } else if (e.key === "Escape") {
         setShowMessageBubble(false);
-
         setIsReactionBarVisible(false);
         updateMyPresence({
           isTyping: false,
+          message: "",
         });
       } else if (e.key === "Enter") {
         updateMyPresence({
           isTyping: false,
         });
         setIsReactionBarVisible(false);
-      } else if (e.key === "Shift") {
+      } else if (e.key === "Control") {
         setIsReactionBarVisible(!isReactionBarVisible);
       }
     }
 
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "/") {
-        e.preventDefault();
-        console.log("was popping");
-      }
-    }
-
     window.addEventListener("keyup", onKeyUp);
-    window.addEventListener("keydown", onKeyDown);
 
     return () => {
       window.removeEventListener("keyup", onKeyUp);
-      window.removeEventListener("keydown", onKeyDown);
     };
   }, [isReactionBarVisible, updateMyPresence]);
 
@@ -140,16 +154,14 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
     );
   });
 
-  //Functions for pointer events on the main boundary
-
   //Updates cursor position on pointer move
   const onPointerMove = (event: React.PointerEvent) => {
     event.preventDefault();
     if (cursor == null || !isReactionBarVisible) {
       updateMyPresence({
         cursor: {
-          x: Math.round(event.clientX),
-          y: Math.round(event.clientY),
+          x: x,
+          y: y,
         },
       });
     }
@@ -168,8 +180,8 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
     if (event.button !== 2) {
       updateMyPresence({
         cursor: {
-          x: Math.round(event.clientX),
-          y: Math.round(event.clientY),
+          x: x,
+          y: y,
         },
       });
 
@@ -177,13 +189,13 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
     }
   };
 
-  //setsPointerDown to false when pointer is up
   const onPointerUp = () => {
     setIsPointerDown(false);
   };
 
   return (
     <main
+      ref={mainRef}
       className="relative flex flex-col items-center justify-between w-full min-h-screen p-4 overflow-hidden text-sm touch-none lg:px-16 lg:py-10"
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
@@ -191,22 +203,31 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
       onPointerUp={onPointerUp}
     >
       {children}
+      {/* Reactions */}
       {reactions.map((reaction) => {
+        if (!mainRef.current) return null;
         return (
           <FlyingReaction
             key={reaction.timestamp.toString()}
-            x={reaction.point.x}
-            y={reaction.point.y}
+            x={
+              (reaction.point.x / 100) *
+              mainRef.current.getBoundingClientRect().width
+            }
+            y={
+              (reaction.point.y / 100) *
+              mainRef.current.getBoundingClientRect().height
+            }
             timestamp={reaction.timestamp}
             value={reaction.value}
           />
         );
       })}
-      {cursor && (
+      {/* my cursor */}
+      {cursor && mainRef.current && (
         <Cursor
           color={color}
-          x={cursor.x}
-          y={cursor.y}
+          x={(cursor.x / 100) * mainRef.current.getBoundingClientRect().width}
+          y={(cursor.y / 100) * mainRef.current.getBoundingClientRect().height}
           nickName={nickName}
           isTyping={isTyping}
           message={message}
@@ -215,10 +236,11 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
           onUpdateMessage={onMessageSubmit}
         />
       )}
-      {isReactionBarVisible && cursor && (
+      {/* Reactionbar */}
+      {isReactionBarVisible && cursor && mainRef.current && (
         <ReactionSelector
-          x={cursor.x}
-          y={cursor.y}
+          x={(cursor.x / 100) * mainRef.current.getBoundingClientRect().width}
+          y={(cursor.y / 100) * mainRef.current.getBoundingClientRect().height}
           setReaction={(reaction) => {
             {
               isReactionBarVisible && setIsReactionBarVisible(false);
@@ -228,8 +250,9 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
         />
       )}
 
+      {/* other cursors */}
       {others.map(({ connectionId, presence }) => {
-        if (presence == null || !presence.cursor) {
+        if (presence == null || !presence.cursor || mainRef.current == null) {
           return null;
         }
 
@@ -237,11 +260,18 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
           <Cursor
             key={connectionId}
             color={presence.color}
-            x={presence.cursor.x}
-            y={presence.cursor.y}
+            x={
+              (presence.cursor.x / 100) *
+              mainRef.current.getBoundingClientRect().width
+            }
+            y={
+              (presence.cursor.y / 100) *
+              mainRef.current.getBoundingClientRect().height
+            }
             nickName={presence.nickName}
             isTyping={presence.isTyping}
             message={presence.message}
+            showMessageBubble={presence.message !== "" || presence.isTyping}
           />
         );
       })}

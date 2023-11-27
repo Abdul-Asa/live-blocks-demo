@@ -32,12 +32,12 @@ export function UserList() {
 
   return (
     <Shell
-      className={`md:w-[400px] space-y-8 h-fit flex flex-col transition-all ${
+      className={`lg:w-[400px] w-full space-y-8 h-fit flex flex-col transition-all ${
         isExpanded ? "max-h-[300px]" : "max-h-[70px]"
       } duration-500 overflow-hidden`}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 w-full space-x-2">
+        <div className="flex items-center w-full gap-1 space-x-2">
           <div
             style={{
               background: `linear-gradient(to bottom right, ${presence.color[0]}, ${presence.color[1]})`,
@@ -59,6 +59,7 @@ export function UserList() {
                   setUserNickName(presence.nickName);
                   return;
                 }
+                updateMyPresence({ nickName: e.currentTarget.nickName.value });
 
                 const existingColors: [string, string][] = onlineUsers.map(
                   (user) => user[1][1] as [string, string]
@@ -73,7 +74,6 @@ export function UserList() {
                   });
 
                 setIsEditing(false); // Close the input field
-                updateMyPresence({ nickName: e.currentTarget.nickName.value });
               }}
             >
               <input
@@ -115,7 +115,7 @@ export function UserList() {
         <div className="flex items-center w-[150px]  justify-end gap-3">
           {isExpanded ? (
             <Minimize2Icon
-              className="transition-all text-scale-900 cursor-pointer hover:text-scale-1200 hover:scale-105"
+              className="transition-all cursor-pointer text-scale-900 hover:text-scale-1200 hover:scale-105"
               strokeWidth={2}
               size={16}
               onClick={() => setIsExpanded(false)}
@@ -124,7 +124,7 @@ export function UserList() {
             <>
               <Badge
                 variant={"outline"}
-                className=" cursor-pointer"
+                className="cursor-pointer "
                 onClick={() => {
                   setIsEditing(false);
                   setUserNickName(presence.nickName);
@@ -134,7 +134,7 @@ export function UserList() {
                 {onlineUsers.length + 1} online
               </Badge>
               <Maximize2Icon
-                className="transition-all text-scale-900 cursor-pointer hover:text-scale-1200 hover:scale-105"
+                className="transition-all cursor-pointer text-scale-900 hover:text-scale-1200 hover:scale-105"
                 strokeWidth={2}
                 size={16}
                 onClick={() => {
@@ -148,11 +148,11 @@ export function UserList() {
         </div>
       </div>
 
-      <div className="space-y-6 flex flex-col items-start overflow-scroll h-full">
+      <div className="flex flex-col items-start h-full space-y-6 overflow-scroll">
         <Separator />
         {!onlineUsers.length && (
           <>
-            <p className="text-center w-full font-anon font-bold">
+            <p className="w-full font-bold text-center font-anon">
               {"👀 Looks like you're the only one here"}
             </p>
           </>
@@ -165,7 +165,7 @@ export function UserList() {
           return (
             <div
               key={id}
-              className="flex items-center justify-center gap-2  space-x-2"
+              className="flex items-center justify-center gap-2 space-x-2"
             >
               <div
                 style={{

@@ -6,35 +6,25 @@ import { badgeVariants } from "@/components/ui/badge";
 import { Room } from "../components/providers/liveblocks-provider";
 import { UserList } from "@/components/layout/user-list";
 import Boundary from "@/components/cursor parts/cursor-boundary";
+import StatusBadge from "@/components/layout/status-badge";
 
 export default function Home() {
   return (
     <Room>
       <Boundary>
-        <div className="flex relative justify-between w-full h-[70px]">
-          <Shell>Chat</Shell>
+        <div className="flex relative justify-center md:justify-between w-full h-[70px]">
+          <Shell className="hidden lg:flex">Chat</Shell>
           <UserList />
         </div>
         <MouseTrack />
         <div className="flex flex-col justify-between w-full sm:flex-row">
-          <Shell className="w-full sm:w-fit">
+          <Shell className="flex justify-around w-full sm:w-fit">
             <div className="flex items-center space-x-4">
               <ThemeSwitch />
-              <Badge variant={"outline"}>Latency: 500ms</Badge>
-              <div
-                className={`${badgeVariants({
-                  variant: "outline",
-                })} flex gap-3 items-center`}
-              >
-                <p>Operational</p>
-                <div className="relative flex items-center pr-3">
-                  <div className="absolute w-2 h-2 bg-green-500 rounded-full"></div>
-                  <div className="absolute w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
-                </div>
-              </div>
+              <StatusBadge />
             </div>
           </Shell>
-          <Shell className="w-full sm:w-fit">
+          <Shell className="flex justify-center w-full font-open sm:w-fit">
             <p>Designed with ❤️ by Shehu</p>
           </Shell>
         </div>
@@ -45,9 +35,9 @@ export default function Home() {
 //TODO:
 //redesign theme switch
 //style the editable input
+//online badge animation
 //framer motion stagger userlist
 //add toasts if possible
-//add chat
-//redesign cursor view
-//design mobile view
-//detect mobile
+//redesign reactionbar
+//stable fonts
+//

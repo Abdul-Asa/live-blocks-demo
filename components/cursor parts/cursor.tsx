@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "../ui/badge";
+import { Shell } from "../layout/shell";
 
 type Props = {
   color: [string, string];
@@ -74,23 +75,27 @@ export default function Cursor({
           strokeWidth="1"
         />
       </svg>
-      <Badge
-        variant={"outline"}
-        className="font-bold uppercase truncate font-open -translate-x-1/3"
-        style={{
-          background: `linear-gradient(to bottom right, ${color[0]}, ${color[1]})`,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        {nickName}
-      </Badge>
-
+      <Shell className="lg:p-2 -translate-x-1/3">
+        <p
+          className="text-xs font-bold uppercase truncate font-open"
+          style={{
+            background: `linear-gradient(to bottom right, ${color[0]}, ${color[1]})`,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          {nickName}
+        </p>
+      </Shell>
       <div
-        className="absolute flex items-center px-4 py-2 transition-all duration-300 ease-linear border shadow-sm pointer-events-none w-fit -top-full left-2 rounded-3xl"
+        className="absolute min-h-[2.4rem] px-4 py-2 transition-all duration-300 ease-linear border shadow-sm pointer-events-none -top-full left-2 rounded-3xl"
         style={{
           background: `linear-gradient(to bottom right, ${color[0]}, ${color[1]})`,
           opacity: showMessageBubble ? 1 : 0,
+          maxWidth: "500px",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
         }}
       >
         {isLocalClient ? (
@@ -98,14 +103,16 @@ export default function Cursor({
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                setInputValue("");
                 onUpdateMessage(inputValue);
               }}
               autoComplete="off"
+              className="flex w-full"
             >
               <input
                 ref={inputRef}
                 type="text"
-                className="text-white bg-transparent border-none outline-none min-w-60"
+                className="text-white bg-transparent outline-none"
                 autoFocus
                 name="message"
                 disabled={!showMessageBubble}
@@ -116,15 +123,23 @@ export default function Cursor({
                   }
                 }}
                 onChange={(e) => setInputValue(e.target.value)}
+                style={{ width: "200px" }}
               />
             </form>
           ) : (
-            <span className="text-white">{message}</span>
+            <p className="text-white truncate">{message}</p>
           )
         ) : isTyping ? (
-          <div>Typing...</div>
+          <div className="flex items-center justify-center">
+            <div className="relative block w-10 h-6 loader-dots">
+              <div className="absolute top-0 my-2.5 w-1.5 h-1.5 rounded-full bg-white opacity-75"></div>
+              <div className="absolute top-0 my-2.5 w-1.5 h-1.5 rounded-full bg-white opacity-75"></div>
+              <div className="absolute top-0 my-2.5 w-1.5 h-1.5 rounded-full bg-white opacity-75"></div>
+              <div className="absolute top-0 my-2.5 w-1.5 h-1.5 rounded-full bg-white opacity-75"></div>
+            </div>
+          </div>
         ) : (
-          <span className="text-white">{message}</span>
+          <p className="text-white truncate">{message}</p>
         )}
       </div>
     </div>
