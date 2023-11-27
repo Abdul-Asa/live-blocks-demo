@@ -196,7 +196,7 @@ export default function Boundary({ children }: { children: React.ReactNode }) {
   return (
     <main
       ref={mainRef}
-      className="relative flex flex-col items-center justify-between w-full min-h-screen p-4 overflow-hidden text-sm touch-none lg:px-16 lg:py-10"
+      className="relative flex flex-col items-center justify-between w-full min-h-[100svh] p-4 overflow-hidden text-sm touch-none lg:px-16 lg:py-10"
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}
