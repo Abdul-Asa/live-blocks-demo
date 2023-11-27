@@ -2,8 +2,7 @@ import { createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
 
 const client = createClient({
-  publicApiKey:
-    "pk_dev_H9MUrAjY0fENAMNhJ8Jwqbc8B2n56Vwtc0ShuJqu5FogA20zYrFbtWt2M1houqdP",
+  publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
   throttle: 16,
 });
 // Presence represents the properties that exist on every user in the Room
