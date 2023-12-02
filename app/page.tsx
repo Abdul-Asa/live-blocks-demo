@@ -1,9 +1,7 @@
 import MouseTrack from "@/components/cursor parts/mouse-track";
 import { Shell } from "@/components/layout/shell";
 import ThemeSwitch from "@/components/layout/theme-switch";
-import { Badge } from "@/components/ui/badge";
-import { badgeVariants } from "@/components/ui/badge";
-import { Room } from "../components/providers/liveblocks-provider";
+import { Room } from "@/components/providers/liveblocks-provider";
 import { UserList } from "@/components/layout/user-list";
 import Boundary from "@/components/cursor parts/cursor-boundary";
 import StatusBadge from "@/components/layout/status-badge";
@@ -13,7 +11,9 @@ export default function Home() {
     <Room>
       <Boundary>
         <div className="flex relative justify-center md:justify-between w-full h-[70px]">
-          <Shell className="hidden lg:flex">Chat</Shell>
+          <Shell className="hidden lg:flex font-anon text-4xl">
+            Multiplayer Demo - Liveblocks
+          </Shell>
           <UserList />
         </div>
         <MouseTrack />
@@ -40,5 +40,4 @@ export default function Home() {
 //add toasts if possible
 //redesign reactionbar
 //stable fonts
-
-//Implement chat
+//meta data and analytics stuff

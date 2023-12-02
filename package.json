@@ -12,6 +12,7 @@
     "@liveblocks/client": "^1.8.1",
     "@liveblocks/react": "^1.8.1",
     "@radix-ui/react-separator": "^1.0.3",
+    "@vercel/analytics": "^1.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.5",

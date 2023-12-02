@@ -88,7 +88,7 @@ export default function Cursor({
         </p>
       </Shell>
       <div
-        className="absolute min-h-[2.4rem] px-4 py-2 transition-all duration-300 ease-linear border shadow-sm pointer-events-none -top-full left-2 rounded-3xl"
+        className="absolute min-h-[2.4rem] px-4 py-2 transition-all duration-300 ease-linear border shadow-sm pointer-events-none -top-3/4 left-2 rounded-3xl"
         style={{
           background: `linear-gradient(to bottom right, ${color[0]}, ${color[1]})`,
           opacity: showMessageBubble ? 1 : 0,

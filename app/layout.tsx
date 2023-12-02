@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Open_Sans, Anonymous_Pro } from "next/font/google";
 import "../styles/globals.css";
 import Background from "../components/layout/background";
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Provider>
           <Background>{children}</Background>
         </Provider>
+        <Analytics />
       </body>
     </html>
   );
