@@ -8,7 +8,7 @@ Certainly! Below is a template for a README file for your Liveblocks Next.js pro
 
 Hey there! 👋 Welcome to my little playground where I've been tinkering with Liveblocks to get the hang of how it works. This project is a real-time collaborative experience using Next.js and liveblocks tools. It's a simple demo, but pretty neat for getting a feel of Liveblocks.
 
-I've got another similar demo but this time with Supabase Realtime[]. This one has less functionality has supabase realtime has less features than liveblocks
+I've got another similar demo but this time with Supabase Realtime [here](https://realtime-tutorial.vercel.app/) . This one has less functionality has supabase realtime has less features than liveblocks
 
 ## Features
 
@@ -48,11 +48,13 @@ These instructions will get you a copy of the project up and running on your loc
    - You will need to obtain API keys from Liveblocks and add them here.
 
 4. **Run the Development Server**
+
    ```bash
    npm run dev
    # or
    yarn dev
    ```
+
    - Navigate to `http://localhost:3000` to view the app.
 
 ## Contributing

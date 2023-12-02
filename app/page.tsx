@@ -11,7 +11,7 @@ export default function Home() {
     <Room>
       <Boundary>
         <div className="flex relative justify-center md:justify-between w-full h-[70px]">
-          <Shell className="hidden lg:flex font-open text-xl">
+          <Shell className="hidden lg:flex leading-none font-open text-xl">
             Multiplayer Demo - Liveblocks
           </Shell>
           <UserList />
