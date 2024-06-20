@@ -1,7 +1,3 @@
-Certainly! Below is a template for a README file for your Liveblocks Next.js project, which features multiplayer cursors and chat/emoji reactions. You can customize it further based on the specifics of your project.
-
----
-
 # Liveblocks Next.js Demo
 
 ## Overview
